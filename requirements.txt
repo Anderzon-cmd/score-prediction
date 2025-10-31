@@ -1,0 +1,4 @@
+uvicorn
+keras
+tensorflow
+fastapi[standard]

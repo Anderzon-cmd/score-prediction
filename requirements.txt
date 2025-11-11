@@ -2,3 +2,5 @@ uvicorn
 keras
 tensorflow
 fastapi[standard]
+pandas
+joblib

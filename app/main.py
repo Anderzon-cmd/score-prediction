@@ -46,9 +46,13 @@ app.add_middleware(
 @app.post("/predict-score",)
 def predict_score(request:PredictScoreRequest):
     data_to_predict={
-        "identify_verified":np.array([request.identify_verified]),
+        "identity_verified":np.array([request.identify_verified]),
         "loan_count":np.array([request.loan_count]),
-        "adress_verified":np.array([request.adress_verified])
+        "adress_verified":np.array([request.adress_verified]),
+        'late_payment_count': np.array([request.late_payment_count]), 
+        'avg_days_late': np.array([request.avg_days_late]), 
+        'total_penalty': np.array([request.total_penalty]), 
+        'fraud_report_count': np.array([request.fraud_report_count])
         }
     try:
         score=app.state.model_predict_score.predict(data_to_predict)[0][0]
@@ -69,7 +73,6 @@ def predict_quote(request: PredictQuoteRequest):
         'dia_semana': request.dia_semana,
     }])
 
-    # Normalizar
     params = app.state.param_predict_quote
     data_normalize = (new_predict - params["mean"]) / params["std"]
 

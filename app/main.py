@@ -32,7 +32,11 @@ async def lifespan(app:FastAPI):
     yield
     print("Application shutdown")
 
-app=FastAPI(lifespan=lifespan)
+ENV=os.getenv("ENV","development")
+if(ENV=="production"):
+    app=FastAPI(lifespan=lifespan,docs_url=None,redoc_url=None,openapi_url=None)
+else:
+    app=FastAPI(lifespan=lifespan)
 
 
 app.add_middleware(
@@ -65,7 +69,7 @@ def predict_score(request:PredictScoreRequest):
     
 @app.post("/predict-quote")
 def predict_quote(request: PredictQuoteRequest):
-    # Crear DataFrame
+
     new_predict = pd.DataFrame([{
         'edad_mascota': request.edad_mascota,
         'edad_cliente': request.edad_cliente,
